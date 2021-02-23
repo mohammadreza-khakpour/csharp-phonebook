@@ -5755,11 +5755,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ss\\source\\repos\\PhoneBook_Solution\\P01_Console\\P01_Console.csproj",
+      "projectUniqueName": "C:\\Users\\ss\\source\\repos\\yekshanbe_5_asr\\PhoneBook_Solution\\PhoneBook_Solution\\P01_Console\\P01_Console.csproj",
       "projectName": "P01_Console",
-      "projectPath": "C:\\Users\\ss\\source\\repos\\PhoneBook_Solution\\P01_Console\\P01_Console.csproj",
+      "projectPath": "C:\\Users\\ss\\source\\repos\\yekshanbe_5_asr\\PhoneBook_Solution\\PhoneBook_Solution\\P01_Console\\P01_Console.csproj",
       "packagesPath": "C:\\Users\\ss\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ss\\source\\repos\\PhoneBook_Solution\\P01_Console\\obj\\",
+      "outputPath": "C:\\Users\\ss\\source\\repos\\yekshanbe_5_asr\\PhoneBook_Solution\\PhoneBook_Solution\\P01_Console\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -15,5 +15,6 @@ namespace P01_Console
         {
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=PhonebookProjDB;Integrated Security=True");
         }
+
     }
 }

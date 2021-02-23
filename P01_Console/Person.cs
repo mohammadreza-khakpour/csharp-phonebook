@@ -27,17 +27,26 @@ namespace P01_Console
 
         public int AddPerson()
         {
+            var db = ObjectProvider.MakeDbInstance();
+            Person aPerson = ObjectProvider.MakePersonInstance();
             Console.Write("enter person's first name");
-            string name = Console.ReadLine();
+            aPerson.PersonFirstName = Console.ReadLine();
 
-
-            Person person01 = new Person() { PersonPhonebookId=1, PersonFirstName=name};
-            AppDbContext db = new AppDbContext();
-            db.Persons.Add(person01);
+            db.Persons.Add(aPerson);
             db.SaveChanges();
-            return person01.Id;
+            return aPerson.Id;
         }
-        
+
+        public bool DeletePerson()
+        {
+            var db = ObjectProvider.MakeDbInstance();
+            Console.Write("Enter Person's id: ");
+            int id = int.Parse(Console.ReadLine());
+            db.Remove(db.Persons.FirstOrDefault(x => x.Id == id));
+            db.SaveChanges();
+            return true;
+        }
+
         public void PrintTheListOfPersons()
         {
             List<Person> people =  GetAllPersons();
