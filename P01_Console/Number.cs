@@ -9,18 +9,18 @@ namespace P01_Console
     class Number
     {
         public int Id { get; set; }
-        public string NumberCity { get; set; }
+        public string NumberPhoneNumber { get; set; }
 
-        public int PersonId { get; set; }
-        [ForeignKey("PersonId")]
-        public Person NumberPerson { get; set; }
+        public int PhonebookId { get; set; }
+        [ForeignKey("PhonebookId")]
+        public PhoneBook NumberPhonebook { get; set; }
 
         public int AddNumber()
         {
             var db = ObjectProvider.MakeDbInstance();
             Number aNumber = ObjectProvider.MakeNumberInstance();
-            Console.Write("Enter number's city: ");
-            aNumber.NumberCity = Console.ReadLine();
+            Console.Write("Enter phone number: ");
+            aNumber.NumberPhoneNumber = Console.ReadLine();
             db.Add(aNumber);
             db.SaveChanges();
             return aNumber.Id;
@@ -47,8 +47,8 @@ namespace P01_Console
         public int UpdateNumber()
         {
             Number foundNumber = FindNumber();
-            Console.Write("Enter new number's city: ");
-            foundNumber.NumberCity = Console.ReadLine();
+            Console.Write("Enter new phone number: ");
+            foundNumber.NumberPhoneNumber = Console.ReadLine();
             var db = ObjectProvider.MakeDbInstance();
             db.Update(foundNumber);
             db.SaveChanges();

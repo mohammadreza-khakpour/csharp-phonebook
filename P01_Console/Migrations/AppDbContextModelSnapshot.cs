@@ -25,15 +25,15 @@ namespace P01_Console.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("NumberCity")
+                    b.Property<string>("NumberPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PersonId")
+                    b.Property<int>("PhonebookId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PhonebookId");
 
                     b.ToTable("Numbers");
                 });
@@ -60,15 +60,10 @@ namespace P01_Console.Migrations
                     b.Property<string>("PersonLastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PersonPhonebookId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PersonWebsiteAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PersonPhonebookId");
 
                     b.ToTable("Persons");
                 });
@@ -80,44 +75,49 @@ namespace P01_Console.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("PhonebookPersonId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhonebookTitle")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PhonebookPersonId");
 
                     b.ToTable("PhoneBooks");
                 });
 
             modelBuilder.Entity("P01_Console.Number", b =>
                 {
-                    b.HasOne("P01_Console.Person", "NumberPerson")
-                        .WithMany("PersonNumbers")
-                        .HasForeignKey("PersonId")
+                    b.HasOne("P01_Console.PhoneBook", "NumberPhonebook")
+                        .WithMany("PhonebookNumbers")
+                        .HasForeignKey("PhonebookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("NumberPerson");
-                });
-
-            modelBuilder.Entity("P01_Console.Person", b =>
-                {
-                    b.HasOne("P01_Console.PhoneBook", "PersonPhonebook")
-                        .WithMany("PhonebookPersonsList")
-                        .HasForeignKey("PersonPhonebookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PersonPhonebook");
-                });
-
-            modelBuilder.Entity("P01_Console.Person", b =>
-                {
-                    b.Navigation("PersonNumbers");
+                    b.Navigation("NumberPhonebook");
                 });
 
             modelBuilder.Entity("P01_Console.PhoneBook", b =>
                 {
-                    b.Navigation("PhonebookPersonsList");
+                    b.HasOne("P01_Console.Person", "PhonebookPerson")
+                        .WithMany("PersonPhonebooks")
+                        .HasForeignKey("PhonebookPersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PhonebookPerson");
+                });
+
+            modelBuilder.Entity("P01_Console.Person", b =>
+                {
+                    b.Navigation("PersonPhonebooks");
+                });
+
+            modelBuilder.Entity("P01_Console.PhoneBook", b =>
+                {
+                    b.Navigation("PhonebookNumbers");
                 });
 #pragma warning restore 612, 618
         }

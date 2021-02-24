@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
 
 namespace P01_Console
 {
@@ -17,11 +15,8 @@ namespace P01_Console
         public string PersonEmailAddress { get; set; }
         public string PersonWebsiteAddress { get; set; }
         public bool PersonIsFemale { get; set; }
-        public ICollection<Number> PersonNumbers { get; set; }
+        public ICollection<PhoneBook> PersonPhonebooks { get; set; }
 
-        public int PersonPhonebookId { get; set; }
-        [ForeignKey("PersonPhonebookId")]
-        public PhoneBook PersonPhonebook { get; set; }
 
 
 
@@ -101,16 +96,16 @@ namespace P01_Console
         //    return db.Persons.ToList();
         //}
 
-        public void PrintPersonWithBelongingPhonebook(int personId)
+        public void PrintPersonWithPhonebookNumbers(int personId)
         {
             AppDbContext db = new AppDbContext();
-            Person per01 = db.Persons.Include(x => x.PersonPhonebook).FirstOrDefault(p => p.Id == personId);
-            Console.WriteLine($"person is : {per01} and it's phone book id is: {per01.PersonPhonebook.Id}");
+            Person per01 = db.Persons.Include(x => x.PersonPhonebooks).FirstOrDefault(p => p.Id == personId);
+            Console.WriteLine($"person is : {per01} and it's phone books are: {per01.PersonPhonebooks}");
         }
 
         public override string ToString()
         {
-            return $"Id: {Id}, Phonebook id: {PersonPhonebookId}, Name: {PersonFirstName}, Family: {PersonLastName}," +
+            return $"Id: {Id}, Name: {PersonFirstName}, Family: {PersonLastName}," +
                 $" Father's name: {PersonFatherName},\n Email address: {PersonEmailAddress}, Website address: {PersonWebsiteAddress}" +
                 $"Gender: {PersonIsFemale}";
         }

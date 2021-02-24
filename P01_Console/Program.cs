@@ -9,8 +9,6 @@ namespace P01_Console
         {
             Console.WriteLine("\t\tHello World!");
 
-            PhoneBook pb = new PhoneBook();
-            pb.AddPhonebookAndPersons_NewWay();
 
             #region MyRegion
             //string newCommand = "";
