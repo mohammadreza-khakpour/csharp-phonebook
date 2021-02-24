@@ -23,9 +23,7 @@ namespace P01_Console
         public int AddPerson()
         {
             var db = ObjectProvider.MakeDbInstance();
-            Person aPerson = ObjectProvider.MakePersonInstance();
-            Console.Write("enter person's first name");
-            aPerson.PersonFirstName = Console.ReadLine();
+            Person aPerson = ObjectProvider.MakePersonInstanceWithFullDetails();
             db.Add(aPerson);
             db.SaveChanges();
             return aPerson.Id;
@@ -49,30 +47,10 @@ namespace P01_Console
             return db.Persons.FirstOrDefault(x => x.Id == id);
         }
 
-        public static Person GetValuesOfPersonProperties()
-        {
-            var personInstance = ObjectProvider.MakePersonInstance();
-
-            Console.Write("Enter new person's first name: ");
-            personInstance.PersonFirstName = Console.ReadLine();
-            Console.Write("Enter new person's last name: ");
-            personInstance.PersonLastName = Console.ReadLine();
-            Console.Write("Enter new person's father name: ");
-            personInstance.PersonFatherName = Console.ReadLine();
-            Console.Write("Enter new person's email address: ");
-            personInstance.PersonEmailAddress = Console.ReadLine();
-            Console.Write("Enter new person's website address: ");
-            personInstance.PersonWebsiteAddress = Console.ReadLine();
-            Console.Write("Enter true if it is female and false if it is male: ");
-            personInstance.PersonIsFemale = bool.Parse(Console.ReadLine());
-
-            return personInstance;
-        }
-
         public int UpdatePerson()
         {
             Person foundedPerson = FindPerson();
-            Person resultedPersonToGetReplaced = GetValuesOfPersonProperties();
+            Person resultedPersonToGetReplaced = ObjectProvider.MakePersonInstanceWithFullDetails();
             foundedPerson.PersonFirstName = resultedPersonToGetReplaced.PersonFirstName;
             foundedPerson.PersonLastName = resultedPersonToGetReplaced.PersonLastName;
             foundedPerson.PersonFatherName = resultedPersonToGetReplaced.PersonFatherName;
@@ -96,18 +74,37 @@ namespace P01_Console
         //    return db.Persons.ToList();
         //}
 
-        public void PrintPersonWithPhonebookNumbers(int personId)
+        public void FindAndPrintPersonNumbers()
         {
+            Console.Write("Enter person's id: ");
+            int personId = int.Parse(Console.ReadLine());
             AppDbContext db = new AppDbContext();
-            Person per01 = db.Persons.Include(x => x.PersonPhonebooks).FirstOrDefault(p => p.Id == personId);
-            Console.WriteLine($"person is : {per01} and it's phone books are: {per01.PersonPhonebooks}");
+            var fromAllPersons = db.Persons.Include(x => x.PersonPhonebooks);
+            var fromAllPhonebooks = db.PhoneBooks.Include(x => x.PhonebookNumbers);
+            Person person = fromAllPersons.FirstOrDefault(x=>x.Id==personId);
+            person.PersonPhonebooks = fromAllPhonebooks.Where(x=>x.PhonebookPersonId==person.Id).ToList();
+            person.PersonPhonebooks.ToList().ForEach(x=> {
+                foreach (Number number in x.PhonebookNumbers)
+                {
+                    Console.WriteLine(number);
+                }
+                Console.WriteLine("--------------------");
+            });
         }
+
+        //public void PrintPersonWithPhonebookNumbers(int personId)
+        //{
+        //    AppDbContext db = new AppDbContext();
+        //    Person per01 = db.Persons.Include(x => x.PersonPhonebooks).FirstOrDefault(p => p.Id == personId);
+        //    Console.WriteLine($"person is : {per01} and it's phone books are: {per01.PersonPhonebooks}");
+        //}
 
         public override string ToString()
         {
             return $"Id: {Id}, Name: {PersonFirstName}, Family: {PersonLastName}," +
-                $" Father's name: {PersonFatherName},\n Email address: {PersonEmailAddress}, Website address: {PersonWebsiteAddress}" +
-                $"Gender: {PersonIsFemale}";
+                    $" Father's name: {PersonFatherName},\n Email address: {PersonEmailAddress}," +
+                    $" Website address: {PersonWebsiteAddress}" +
+                    $"Gender: {PersonIsFemale}";
         }
 
     }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace P01_Console
 {
@@ -21,6 +19,8 @@ namespace P01_Console
             Number aNumber = ObjectProvider.MakeNumberInstance();
             Console.Write("Enter phone number: ");
             aNumber.NumberPhoneNumber = Console.ReadLine();
+            Console.Write("Enter the id of belonging phonebook: ");
+            aNumber.PhonebookId = int.Parse(Console.ReadLine());
             db.Add(aNumber);
             db.SaveChanges();
             return aNumber.Id;
@@ -49,6 +49,8 @@ namespace P01_Console
             Number foundNumber = FindNumber();
             Console.Write("Enter new phone number: ");
             foundNumber.NumberPhoneNumber = Console.ReadLine();
+            Console.Write("Enter the id of belonging phonebook: ");
+            foundNumber.PhonebookId = int.Parse(Console.ReadLine());
             var db = ObjectProvider.MakeDbInstance();
             db.Update(foundNumber);
             db.SaveChanges();

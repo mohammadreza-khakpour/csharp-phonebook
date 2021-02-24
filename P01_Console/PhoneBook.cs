@@ -20,6 +20,50 @@ namespace P01_Console
         public Person PhonebookPerson { get; set; }
 
 
+        public int AddPhonebook()
+        {
+            var db = ObjectProvider.MakeDbInstance();
+            PhoneBook aPhonebook = ObjectProvider.MakePhonebookInstance();
+            Console.Write("Enter phonebook's title: ");
+            aPhonebook.PhonebookTitle = Console.ReadLine();
+            Console.Write("Enter the id of belonging person: ");
+            aPhonebook.PhonebookPersonId = int.Parse(Console.ReadLine());
+            db.Add(aPhonebook);
+            db.SaveChanges();
+            return aPhonebook.Id;
+        }
+
+        public int DeletePhonebook()
+        {
+            var db = ObjectProvider.MakeDbInstance();
+            Console.Write("Enter phonebook's id: ");
+            int id = int.Parse(Console.ReadLine());
+            db.Remove(db.PhoneBooks.FirstOrDefault(x => x.Id == id));
+            db.SaveChanges();
+            return id;
+        }
+
+        public PhoneBook FindPhonebook()
+        {
+            Console.Write("Enter phonebook's id: ");
+            int id = int.Parse(Console.ReadLine());
+            var db = ObjectProvider.MakeDbInstance();
+            return db.PhoneBooks.FirstOrDefault(x => x.Id == id);
+        }
+
+        public int UpdatePhonebook()
+        {
+            PhoneBook foundPhonebook = FindPhonebook();
+            Console.Write("Enter new phonebook title: ");
+            foundPhonebook.PhonebookTitle = Console.ReadLine();
+            Console.Write("Enter the id of belonging person: ");
+            foundPhonebook.PhonebookPersonId = int.Parse(Console.ReadLine());
+            var db = ObjectProvider.MakeDbInstance();
+            db.Update(foundPhonebook);
+            db.SaveChanges();
+            return foundPhonebook.Id;
+        }
+
         //public int AddPhonebookAndPersons_OldWay()
         //{
         //    AppDbContext db = new AppDbContext();
