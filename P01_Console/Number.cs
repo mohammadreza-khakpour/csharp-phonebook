@@ -49,8 +49,6 @@ namespace P01_Console
             Number foundNumber = FindNumber();
             Console.Write("Enter new phone number: ");
             foundNumber.NumberPhoneNumber = Console.ReadLine();
-            Console.Write("Enter the id of belonging phonebook: ");
-            foundNumber.PhonebookId = int.Parse(Console.ReadLine());
             var db = ObjectProvider.MakeDbInstance();
             db.Update(foundNumber);
             db.SaveChanges();

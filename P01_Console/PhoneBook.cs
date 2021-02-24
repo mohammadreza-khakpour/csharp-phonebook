@@ -56,8 +56,6 @@ namespace P01_Console
             PhoneBook foundPhonebook = FindPhonebook();
             Console.Write("Enter new phonebook title: ");
             foundPhonebook.PhonebookTitle = Console.ReadLine();
-            Console.Write("Enter the id of belonging person: ");
-            foundPhonebook.PhonebookPersonId = int.Parse(Console.ReadLine());
             var db = ObjectProvider.MakeDbInstance();
             db.Update(foundPhonebook);
             db.SaveChanges();

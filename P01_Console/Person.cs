@@ -50,29 +50,17 @@ namespace P01_Console
         public int UpdatePerson()
         {
             Person foundedPerson = FindPerson();
-            Person resultedPersonToGetReplaced = ObjectProvider.MakePersonInstanceWithFullDetails();
-            foundedPerson.PersonFirstName = resultedPersonToGetReplaced.PersonFirstName;
-            foundedPerson.PersonLastName = resultedPersonToGetReplaced.PersonLastName;
-            foundedPerson.PersonFatherName = resultedPersonToGetReplaced.PersonFatherName;
-            foundedPerson.PersonEmailAddress = resultedPersonToGetReplaced.PersonEmailAddress;
-            foundedPerson.PersonWebsiteAddress = resultedPersonToGetReplaced.PersonWebsiteAddress;
+            Person person = ObjectProvider.MakePersonInstanceWithFullDetails();
+            foundedPerson.PersonFirstName = person.PersonFirstName;
+            foundedPerson.PersonLastName = person.PersonLastName;
+            foundedPerson.PersonFatherName = person.PersonFatherName;
+            foundedPerson.PersonEmailAddress = person.PersonEmailAddress;
+            foundedPerson.PersonWebsiteAddress = person.PersonWebsiteAddress;
             var db = ObjectProvider.MakeDbInstance();
             db.Update(foundedPerson);
             db.SaveChanges();
             return foundedPerson.Id;
         }
-
-        //public void PrintTheListOfPersons()
-        //{
-        //    List<Person> people =  GetAllPersons();
-        //    people.ForEach(p => Console.WriteLine(p));
-        //}
-
-        //public List<Person> GetAllPersons()
-        //{
-        //    AppDbContext db = new AppDbContext();
-        //    return db.Persons.ToList();
-        //}
 
         public void FindAndPrintPersonNumbers()
         {
@@ -86,18 +74,12 @@ namespace P01_Console
             person.PersonPhonebooks.ToList().ForEach(x=> {
                 foreach (Number number in x.PhonebookNumbers)
                 {
-                    Console.WriteLine(number);
+                    Console.WriteLine($"The number is {number.NumberPhoneNumber}" +
+                                         $" and belongs to {person.PersonFirstName} {person.PersonLastName}");
                 }
                 Console.WriteLine("--------------------");
             });
         }
-
-        //public void PrintPersonWithPhonebookNumbers(int personId)
-        //{
-        //    AppDbContext db = new AppDbContext();
-        //    Person per01 = db.Persons.Include(x => x.PersonPhonebooks).FirstOrDefault(p => p.Id == personId);
-        //    Console.WriteLine($"person is : {per01} and it's phone books are: {per01.PersonPhonebooks}");
-        //}
 
         public override string ToString()
         {
