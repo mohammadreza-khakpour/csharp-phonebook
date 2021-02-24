@@ -26,14 +26,33 @@ namespace P01_Console
             return aNumber.Id;
         }
 
-        public bool DeleteNumber()
+        public int DeleteNumber()
         {
             var db = ObjectProvider.MakeDbInstance();
             Console.Write("Enter number's id: ");
             int id = int.Parse(Console.ReadLine());
             db.Remove(db.Numbers.FirstOrDefault(x => x.Id == id));
             db.SaveChanges();
-            return true;
+            return id;
+        }
+
+        public Number FindNumber()
+        {
+            Console.Write("Enter number's id: ");
+            int id = int.Parse(Console.ReadLine());
+            var db = ObjectProvider.MakeDbInstance();
+            return db.Numbers.FirstOrDefault(x => x.Id == id);
+        }
+
+        public int UpdateNumber()
+        {
+            Number foundNumber = FindNumber();
+            Console.Write("Enter new number's city: ");
+            foundNumber.NumberCity = Console.ReadLine();
+            var db = ObjectProvider.MakeDbInstance();
+            db.Update(foundNumber);
+            db.SaveChanges();
+            return foundNumber.Id;
         }
     }
 }

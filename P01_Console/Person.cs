@@ -31,33 +31,75 @@ namespace P01_Console
             Person aPerson = ObjectProvider.MakePersonInstance();
             Console.Write("enter person's first name");
             aPerson.PersonFirstName = Console.ReadLine();
-
-            db.Persons.Add(aPerson);
+            db.Add(aPerson);
             db.SaveChanges();
             return aPerson.Id;
         }
 
-        public bool DeletePerson()
+        public int DeletePerson()
         {
             var db = ObjectProvider.MakeDbInstance();
             Console.Write("Enter Person's id: ");
             int id = int.Parse(Console.ReadLine());
             db.Remove(db.Persons.FirstOrDefault(x => x.Id == id));
             db.SaveChanges();
-            return true;
+            return id;
         }
 
-        public void PrintTheListOfPersons()
+        public Person FindPerson()
         {
-            List<Person> people =  GetAllPersons();
-            people.ForEach(p => Console.WriteLine(p));
+            Console.Write("Enter person's id: ");
+            int id = int.Parse(Console.ReadLine());
+            var db = ObjectProvider.MakeDbInstance();
+            return db.Persons.FirstOrDefault(x => x.Id == id);
         }
 
-        public List<Person> GetAllPersons()
+        public static Person GetValuesOfPersonProperties()
         {
-            AppDbContext db = new AppDbContext();
-            return db.Persons.ToList();
+            var personInstance = ObjectProvider.MakePersonInstance();
+
+            Console.Write("Enter new person's first name: ");
+            personInstance.PersonFirstName = Console.ReadLine();
+            Console.Write("Enter new person's last name: ");
+            personInstance.PersonLastName = Console.ReadLine();
+            Console.Write("Enter new person's father name: ");
+            personInstance.PersonFatherName = Console.ReadLine();
+            Console.Write("Enter new person's email address: ");
+            personInstance.PersonEmailAddress = Console.ReadLine();
+            Console.Write("Enter new person's website address: ");
+            personInstance.PersonWebsiteAddress = Console.ReadLine();
+            Console.Write("Enter true if it is female and false if it is male: ");
+            personInstance.PersonIsFemale = bool.Parse(Console.ReadLine());
+
+            return personInstance;
         }
+
+        public int UpdatePerson()
+        {
+            Person foundedPerson = FindPerson();
+            Person resultedPersonToGetReplaced = GetValuesOfPersonProperties();
+            foundedPerson.PersonFirstName = resultedPersonToGetReplaced.PersonFirstName;
+            foundedPerson.PersonLastName = resultedPersonToGetReplaced.PersonLastName;
+            foundedPerson.PersonFatherName = resultedPersonToGetReplaced.PersonFatherName;
+            foundedPerson.PersonEmailAddress = resultedPersonToGetReplaced.PersonEmailAddress;
+            foundedPerson.PersonWebsiteAddress = resultedPersonToGetReplaced.PersonWebsiteAddress;
+            var db = ObjectProvider.MakeDbInstance();
+            db.Update(foundedPerson);
+            db.SaveChanges();
+            return foundedPerson.Id;
+        }
+
+        //public void PrintTheListOfPersons()
+        //{
+        //    List<Person> people =  GetAllPersons();
+        //    people.ForEach(p => Console.WriteLine(p));
+        //}
+
+        //public List<Person> GetAllPersons()
+        //{
+        //    AppDbContext db = new AppDbContext();
+        //    return db.Persons.ToList();
+        //}
 
         public void PrintPersonWithBelongingPhonebook(int personId)
         {

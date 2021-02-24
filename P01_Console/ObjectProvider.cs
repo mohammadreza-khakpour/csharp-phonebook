@@ -6,6 +6,7 @@ namespace P01_Console
 {
     static class ObjectProvider
     {
+
         public static AppDbContext MakeDbInstance()
         {
             return new AppDbContext();
