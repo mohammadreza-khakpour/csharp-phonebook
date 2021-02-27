@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EH0maQdmJB+ykuAlgRlRwXf0j2RqH2YTdAQshtncx5uQ5akQQXu7kI64+b2roKaS5oIkC2COs40qgidyhYjjkQ==",
+  "dgSpecHash": "97qCLgv3wajS5G/UdzUV7RVs0NxH4DHQswCQfvzu4VVq/cew3yveMyUvv+/Eo46tUzBFFm5Bre0fRrlNIIY6HQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ss\\source\\repos\\yekshanbe_5_asr\\PhoneBook_Solution\\PhoneBook_Solution\\P01_Console\\P01_Console.csproj",
+  "projectFilePath": "C:\\Users\\ss\\source\\repos\\taav-phonebook\\P01_Console\\P01_Console.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ss\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ss\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

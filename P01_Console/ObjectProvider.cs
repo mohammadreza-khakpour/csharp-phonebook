@@ -1,4 +1,5 @@
-﻿using System;
+﻿using P01_Console.Model.classes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,6 +17,10 @@ namespace P01_Console
         {
             return new Number();
         }
+        public static Email MakeEmailInstance()
+        {
+            return new Email();
+        }
 
         public static PhoneBook MakePhonebookInstance()
         {
@@ -24,7 +29,7 @@ namespace P01_Console
 
         public static Person MakePersonInstance()
         {
-            return new Person();
+            return new Person(MakeDbInstance());
         }
 
         public static Person MakePersonInstanceWithFullDetails()
@@ -42,7 +47,7 @@ namespace P01_Console
                 Console.Write("Enter new person's website address: ");
                 personInstance.PersonWebsiteAddress = Console.ReadLine();
                 Console.Write("Enter true if it is female and false if it is male: ");
-                personInstance.PersonIsFemale = bool.Parse(Console.ReadLine());
+                personInstance.IsFemale = bool.Parse(Console.ReadLine());
 
                 return personInstance;
         }

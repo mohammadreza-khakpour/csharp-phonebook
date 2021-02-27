@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using P01_Console;
 
 namespace P01_Console.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210227085426_thirdM")]
+    partial class thirdM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,10 +27,7 @@ namespace P01_Console.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ContactTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContactValue")
+                    b.Property<string>("EmailAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhonebookId")
@@ -48,10 +47,7 @@ namespace P01_Console.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ContactTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContactValue")
+                    b.Property<string>("NumberPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhonebookId")
@@ -116,13 +112,13 @@ namespace P01_Console.Migrations
 
             modelBuilder.Entity("P01_Console.Model.classes.Email", b =>
                 {
-                    b.HasOne("P01_Console.PhoneBook", "EmailPhonebook")
+                    b.HasOne("P01_Console.PhoneBook", "NumberPhonebook")
                         .WithMany("PhonebookEmails")
                         .HasForeignKey("PhonebookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("EmailPhonebook");
+                    b.Navigation("NumberPhonebook");
                 });
 
             modelBuilder.Entity("P01_Console.Number", b =>

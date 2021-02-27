@@ -2,44 +2,23 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using P01_Console;
 
 namespace P01_Console.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210227071906_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("P01_Console.Model.classes.Email", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ContactTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContactValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PhonebookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PhonebookId");
-
-                    b.ToTable("Emails");
-                });
 
             modelBuilder.Entity("P01_Console.Number", b =>
                 {
@@ -48,10 +27,7 @@ namespace P01_Console.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ContactTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContactValue")
+                    b.Property<string>("NumberPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhonebookId")
@@ -71,9 +47,6 @@ namespace P01_Console.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsFemale")
-                        .HasColumnType("bit");
-
                     b.Property<string>("PersonEmailAddress")
                         .HasColumnType("nvarchar(max)");
 
@@ -82,6 +55,9 @@ namespace P01_Console.Migrations
 
                     b.Property<string>("PersonFirstName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PersonIsFemale")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PersonLastName")
                         .HasColumnType("nvarchar(max)");
@@ -104,7 +80,7 @@ namespace P01_Console.Migrations
                     b.Property<int>("PhonebookPersonId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("PhonebookTitle")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -112,17 +88,6 @@ namespace P01_Console.Migrations
                     b.HasIndex("PhonebookPersonId");
 
                     b.ToTable("PhoneBooks");
-                });
-
-            modelBuilder.Entity("P01_Console.Model.classes.Email", b =>
-                {
-                    b.HasOne("P01_Console.PhoneBook", "EmailPhonebook")
-                        .WithMany("PhonebookEmails")
-                        .HasForeignKey("PhonebookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EmailPhonebook");
                 });
 
             modelBuilder.Entity("P01_Console.Number", b =>
@@ -154,8 +119,6 @@ namespace P01_Console.Migrations
 
             modelBuilder.Entity("P01_Console.PhoneBook", b =>
                 {
-                    b.Navigation("PhonebookEmails");
-
                     b.Navigation("PhonebookNumbers");
                 });
 #pragma warning restore 612, 618

@@ -37,34 +37,34 @@ namespace P01_Console
                     ShowAllInfos();
                     break;
                 case "Person New":
-                    person.AddPerson();
+                    person.Add();
                     break;
                 case "Person Edit":
-                    person.FindPerson().UpdatePerson();
+                    person.FindPerson().UpdatePersonTotally();
                     break;
                 case "Person Delete":
-                    person.DeletePerson();
+                    person.Delete();
                     break;
                 case "Person View Info":
                     person.PrintPersonNumbers();
                     break;
                 case "PhoneBook New":
-                    phonebook.AddPhonebook();
+                    phonebook.Add();
                     break;
                 case "PhoneBook Edit":
                     phonebook.UpdatePhonebook();
                     break;
                 case "PhoneBook Delete":
-                    phonebook.DeletePhonebook();
+                    phonebook.Delete();
                     break;
                 case "Number New":
-                    number.AddNumber();
+                    number.Add();
                     break;
                 case "Number Edit":
                     number.UpdateNumber();
                     break;
                 case "Number Delete":
-                    number.DeleteNumber();
+                    number.Delete();
                     break;
                 case "exit":
                     Console.WriteLine("\n\t\tSee you later.");
@@ -86,7 +86,7 @@ namespace P01_Console
                     Console.WriteLine($"\t\tphonebook id is : {phonebook.Id}");
                     phonebook.PhonebookNumbers.ToList().ForEach(number =>
                     {
-                        Console.WriteLine($"\t\t\t{number.NumberPhoneNumber}");
+                        Console.WriteLine($"\t\t\t{number.ContactTitle}  {number.ContactValue}");
                     });
                 });
             });

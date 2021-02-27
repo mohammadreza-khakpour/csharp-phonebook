@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using P01_Console.Model.classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,24 +9,25 @@ using System.Threading.Tasks;
 
 namespace P01_Console
 {
-    class PhoneBook
+    class PhoneBook : IBookType
     {
 
         public int Id { get; set; }
-        public string PhonebookTitle { get; set; }
+        public string Title { get; set; }
         public ICollection<Number> PhonebookNumbers { get; set; }
+        public ICollection<Email> PhonebookEmails { get; set; }
 
         public int PhonebookPersonId { get; set; }
         [ForeignKey("PhonebookPersonId")]
         public Person PhonebookPerson { get; set; }
 
 
-        public int AddPhonebook()
+        public int Add()
         {
             var db = ObjectProvider.MakeDbInstance();
             PhoneBook aPhonebook = ObjectProvider.MakePhonebookInstance();
             Console.Write("Enter phonebook's title: ");
-            aPhonebook.PhonebookTitle = Console.ReadLine();
+            aPhonebook.Title = Console.ReadLine();
             Console.Write("Enter the id of belonging person: ");
             aPhonebook.PhonebookPersonId = int.Parse(Console.ReadLine());
             db.Add(aPhonebook);
@@ -33,7 +35,7 @@ namespace P01_Console
             return aPhonebook.Id;
         }
 
-        public int DeletePhonebook()
+        public int Delete()
         {
             var db = ObjectProvider.MakeDbInstance();
             Console.Write("Enter phonebook's id: ");
@@ -55,7 +57,7 @@ namespace P01_Console
         {
             PhoneBook foundPhonebook = FindPhonebook();
             Console.Write("Enter new phonebook title: ");
-            foundPhonebook.PhonebookTitle = Console.ReadLine();
+            foundPhonebook.Title = Console.ReadLine();
             var db = ObjectProvider.MakeDbInstance();
             db.Update(foundPhonebook);
             db.SaveChanges();
