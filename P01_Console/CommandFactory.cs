@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,6 +12,7 @@ namespace P01_Console
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nEnter one of these commands (consider capital letters):" +
+                        "\nShow All" +
                         "\nPerson New\nPerson Edit\nPerson Delete\nPerson View Info" +
                         "\nPhoneBook New\nPhoneBook Edit\nPhoneBook Delete" +
                         "\nNumber New\nNumber Edit\nNumber Delete" +
@@ -31,6 +33,9 @@ namespace P01_Console
             Number number = ObjectProvider.MakeNumberInstance();
             switch (UserCommand)
             {
+                case "Show All":
+                    ShowAllInfos();
+                    break;
                 case "Person New":
                     person.AddPerson();
                     break;
@@ -67,6 +72,24 @@ namespace P01_Console
                 default:
                     break;
             }
+        }
+
+        public static void ShowAllInfos()
+        {
+            AppDbContext db = ObjectProvider.MakeDbInstance();
+            db.Persons.ToList().ForEach(eachPerson =>
+            {
+                Console.WriteLine($"\tPerson id is : {eachPerson.Id}");
+                var personPhonebooks = eachPerson.FindPhonebooksWithBelongingNumbers(eachPerson.Id);
+                personPhonebooks.ToList().ForEach(phonebook =>
+                {
+                    Console.WriteLine($"\t\tphonebook id is : {phonebook.Id}");
+                    phonebook.PhonebookNumbers.ToList().ForEach(number =>
+                    {
+                        Console.WriteLine($"\t\t\t{number.NumberPhoneNumber}");
+                    });
+                });
+            });
         }
 
     }

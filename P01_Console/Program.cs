@@ -8,7 +8,6 @@ namespace P01_Console
         static void Main(string[] args)
         {
             Console.WriteLine("\t\tHello World!");
-
             do
             {
                 CommandFactory.ShowMenu();
