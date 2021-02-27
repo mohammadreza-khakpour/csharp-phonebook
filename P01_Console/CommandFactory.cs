@@ -41,7 +41,7 @@ namespace P01_Console
                     person.DeletePerson();
                     break;
                 case "Person View Info":
-                    person.FindAndPrintPersonNumbers();
+                    person.PrintPersonNumbers();
                     break;
                 case "PhoneBook New":
                     phonebook.AddPhonebook();

@@ -29,7 +29,6 @@ namespace P01_Console
 
         public static Person MakePersonInstanceWithFullDetails()
         {
-            
                 var personInstance = MakePersonInstance();
 
                 Console.Write("Enter new person's first name: ");
@@ -46,7 +45,6 @@ namespace P01_Console
                 personInstance.PersonIsFemale = bool.Parse(Console.ReadLine());
 
                 return personInstance;
-            
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace P01_Console
 {
     class Person
     {
-        
+
         public int Id { get; set; }
         public string PersonFirstName { get; set; }
         public string PersonLastName { get; set; }
@@ -47,6 +48,26 @@ namespace P01_Console
             return db.Persons.FirstOrDefault(x => x.Id == id);
         }
 
+        // IIncludableQueryable<Person, ICollection<PhoneBook>>
+        public Person FindPersonWithBelongingPhonebooks()
+        {
+            Console.Write("Enter person's id: ");
+            int id = int.Parse(Console.ReadLine());
+            AppDbContext db = ObjectProvider.MakeDbInstance();
+            var fromAllPersons = db.Persons.Include(x => x.PersonPhonebooks);
+            Person person = fromAllPersons.FirstOrDefault(x => x.Id == id);
+            return person;
+        }
+        
+        public ICollection<PhoneBook> FindPhonebooksWithBelongingNumbers(int personId)
+        {
+            AppDbContext db = ObjectProvider.MakeDbInstance();
+            var fromAllPhonebooks = db.PhoneBooks.Include(x => x.PhonebookNumbers);
+            var phonebooksIncludingNumbers = fromAllPhonebooks.Where(x => x.PhonebookPersonId == personId).ToList();
+            return phonebooksIncludingNumbers;
+        }
+
+
         public int UpdatePerson()
         {
             Person foundedPerson = FindPerson();
@@ -62,16 +83,31 @@ namespace P01_Console
             return foundedPerson.Id;
         }
 
-        public void FindAndPrintPersonNumbers()
+        //public void FindAndPrintPersonNumbers()
+        //{
+        //    Console.Write("Enter person's id: ");
+        //    int personId = int.Parse(Console.ReadLine());
+        //    AppDbContext db = ObjectProvider.MakeDbInstance();
+        //    var fromAllPersons = db.Persons.Include(x => x.PersonPhonebooks);
+        //    var fromAllPhonebooks = db.PhoneBooks.Include(x => x.PhonebookNumbers);
+        //    Person person = fromAllPersons.FirstOrDefault(x=>x.Id==personId);
+        //    person.PersonPhonebooks = fromAllPhonebooks.Where(x=>x.PhonebookPersonId==person.Id).ToList();
+        //    person.PersonPhonebooks.ToList().ForEach(x=> {
+        //        foreach (Number number in x.PhonebookNumbers)
+        //        {
+        //            Console.WriteLine($"The number is {number.NumberPhoneNumber}" +
+        //                                 $" and belongs to {person.PersonFirstName} {person.PersonLastName}");
+        //        }
+        //        Console.WriteLine("--------------------");
+        //    });
+        //}
+
+        public void PrintPersonNumbers()
         {
-            Console.Write("Enter person's id: ");
-            int personId = int.Parse(Console.ReadLine());
-            AppDbContext db = new AppDbContext();
-            var fromAllPersons = db.Persons.Include(x => x.PersonPhonebooks);
-            var fromAllPhonebooks = db.PhoneBooks.Include(x => x.PhonebookNumbers);
-            Person person = fromAllPersons.FirstOrDefault(x=>x.Id==personId);
-            person.PersonPhonebooks = fromAllPhonebooks.Where(x=>x.PhonebookPersonId==person.Id).ToList();
-            person.PersonPhonebooks.ToList().ForEach(x=> {
+            AppDbContext db = ObjectProvider.MakeDbInstance();
+            Person person = FindPersonWithBelongingPhonebooks();
+            person.PersonPhonebooks = FindPhonebooksWithBelongingNumbers(person.Id);
+            person.PersonPhonebooks.ToList().ForEach(x => {
                 foreach (Number number in x.PhonebookNumbers)
                 {
                     Console.WriteLine($"The number is {number.NumberPhoneNumber}" +
@@ -80,6 +116,7 @@ namespace P01_Console
                 Console.WriteLine("--------------------");
             });
         }
+
 
         public override string ToString()
         {
