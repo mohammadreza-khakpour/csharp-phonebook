@@ -37,15 +37,15 @@ namespace P01_Console
                 var personInstance = MakePersonInstance();
 
                 Console.Write("Enter new person's first name: ");
-                personInstance.PersonFirstName = Console.ReadLine();
+                personInstance.FirstName = Console.ReadLine();
                 Console.Write("Enter new person's last name: ");
-                personInstance.PersonLastName = Console.ReadLine();
+                personInstance.LastName = Console.ReadLine();
                 Console.Write("Enter new person's father name: ");
-                personInstance.PersonFatherName = Console.ReadLine();
+                personInstance.FatherName = Console.ReadLine();
                 Console.Write("Enter new person's email address: ");
-                personInstance.PersonEmailAddress = Console.ReadLine();
+                personInstance.EmailAddress = Console.ReadLine();
                 Console.Write("Enter new person's website address: ");
-                personInstance.PersonWebsiteAddress = Console.ReadLine();
+                personInstance.WebsiteAddress = Console.ReadLine();
                 Console.Write("Enter true if it is female and false if it is male: ");
                 personInstance.IsFemale = bool.Parse(Console.ReadLine());
 

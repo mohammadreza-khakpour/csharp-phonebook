@@ -15,11 +15,11 @@ namespace P01_Console
         }
 
         public int Id { get; set; }
-        public string PersonFirstName { get; set; }
-        public string PersonLastName { get; set; }
-        public string PersonFatherName { get; set; }
-        public string PersonEmailAddress { get; set; }
-        public string PersonWebsiteAddress { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FatherName { get; set; }
+        public string EmailAddress { get; set; }
+        public string WebsiteAddress { get; set; }
         public bool IsFemale { get; set; }
         public ICollection<PhoneBook> PersonPhonebooks { get; set; }
 
@@ -46,6 +46,22 @@ namespace P01_Console
             db.SaveChanges();
             return id;
         }
+        
+        public int UpdatePersonTotally()
+        {
+            Person foundedPerson = FindPerson();
+            // ask client if it just needs some specific editions
+            Person person = ObjectProvider.MakePersonInstanceWithFullDetails();
+            foundedPerson.FirstName = person.FirstName;
+            foundedPerson.LastName = person.LastName;
+            foundedPerson.FatherName = person.FatherName;
+            foundedPerson.EmailAddress = person.EmailAddress;
+            foundedPerson.WebsiteAddress = person.WebsiteAddress;
+            //var db = ObjectProvider.MakeDbInstance();
+            db.Update(foundedPerson);
+            db.SaveChanges();
+            return foundedPerson.Id;
+        }
 
         public Person FindPerson()
         {
@@ -53,6 +69,22 @@ namespace P01_Console
             int id = int.Parse(Console.ReadLine());
             //var db = ObjectProvider.MakeDbInstance();
             return db.Persons.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void PrintPersonNumbers()
+        {
+            //AppDbContext db = ObjectProvider.MakeDbInstance();
+            Person person = FindPersonWithBelongingPhonebooks();
+            person.PersonPhonebooks = FindPhonebooksWithBelongingNumbers(person.Id);
+            person.PersonPhonebooks.ToList().ForEach(x =>
+            {
+                foreach (Number number in x.PhonebookNumbers)
+                {
+                    Console.WriteLine($"The number is: {number.ContactTitle}  {number.ContactValue}" +
+                                         $" and belongs to {person.FirstName} {person.LastName}");
+                }
+                Console.WriteLine("--------------------");
+            });
         }
 
         public Person FindPersonWithBelongingPhonebooks()
@@ -73,46 +105,11 @@ namespace P01_Console
             return phonebooksIncludingNumbers;
         }
 
-
-        public int UpdatePersonTotally()
-        {
-            Person foundedPerson = FindPerson();
-            // ask client if it just needs some specific editions
-            Person person = ObjectProvider.MakePersonInstanceWithFullDetails();
-            foundedPerson.PersonFirstName = person.PersonFirstName;
-            foundedPerson.PersonLastName = person.PersonLastName;
-            foundedPerson.PersonFatherName = person.PersonFatherName;
-            foundedPerson.PersonEmailAddress = person.PersonEmailAddress;
-            foundedPerson.PersonWebsiteAddress = person.PersonWebsiteAddress;
-            //var db = ObjectProvider.MakeDbInstance();
-            db.Update(foundedPerson);
-            db.SaveChanges();
-            return foundedPerson.Id;
-        }
-
-        
-        public void PrintPersonNumbers()
-        {
-            //AppDbContext db = ObjectProvider.MakeDbInstance();
-            Person person = FindPersonWithBelongingPhonebooks();
-            person.PersonPhonebooks = FindPhonebooksWithBelongingNumbers(person.Id);
-            person.PersonPhonebooks.ToList().ForEach(x =>
-            {
-                foreach (Number number in x.PhonebookNumbers)
-                {
-                    Console.WriteLine($"The number is: {number.ContactTitle}  {number.ContactValue}" +
-                                         $" and belongs to {person.PersonFirstName} {person.PersonLastName}");
-                }
-                Console.WriteLine("--------------------");
-            });
-        }
-
-
         public override string ToString()
         {
-            return $"Id: {Id}, Name: {PersonFirstName}, Family: {PersonLastName}," +
-                    $" Father's name: {PersonFatherName},\n Email address: {PersonEmailAddress}," +
-                    $" Website address: {PersonWebsiteAddress}" +
+            return $"Id: {Id}, Name: {FirstName}, Family: {LastName}," +
+                    $" Father's name: {FatherName},\n Email address: {EmailAddress}," +
+                    $" Website address: {WebsiteAddress}" +
                     $"Gender: {IsFemale}";
         }
 
